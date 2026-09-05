@@ -1,9 +1,9 @@
 # SkipCell
 
 SkipCell is an SSD-resident approximate nearest-neighbor search prototype. It combines
-Community Skipping with Adaptive Cell-Tree Search and a Cell-contiguous 4-KiB vector layout. Raw
-vectors remain on SSD; the default reviewer configuration keeps PQ codes, routing metadata, and
-topology in memory and gives Cell-4K pages a bounded LRU buffer pool.
+Community Skipping with Waterline Search and a Cell-contiguous 4-KiB vector layout.
+
+Paper Title: Accelerating Disk-Resident Graph ANNS via Community Skipping and Waterline Search over Crosslinked Cell Hierarchies
 
 ## Reproduce SIFT1M
 
@@ -15,8 +15,7 @@ DiskANN Base index, derives the checksummed SkipCell artifacts, runs both system
 bash tools/example.sh
 ```
 
-The run also writes `output/example.csv` and one log per system under `output/logs/`. It exits with
-an error if the candidate does not pass the configured 5x matched-recall QPS floor. Artifacts are
+The run also writes `output/example.csv` and one log per system under `output/logs/`. Artifacts are
 checkpointed under `output/index/`, so an interrupted run can be restarted with the same command.
 
 Build only:
@@ -40,7 +39,3 @@ python/    Deterministic Cell-tree trainer
 test/      C++ and Python regression tests
 tools/     Reviewer build and end-to-end example scripts
 ```
-
-Persisted legacy identifiers are retained only where required to read earlier versioned sidecars;
-the public reviewer command line uses `skipcell_sidecar_path`, `cell_profile_path`, and
-`cell_hierarchy_path`.
